@@ -9,7 +9,11 @@
 */
 int main(void)
 {
-	_printf("Let's try to printf a simple sentence.\n");
+  int len = 5;
+
+  	_printf("Let's try to printf a simple sentence.\n");
 	printf("Let's try to printf a simple sentence.\n");
+	_printf("Length:[%d, %i]\n", len, len);
+	printf("Length:[%d, %i]\n", len, len);
 	return (0);
 }

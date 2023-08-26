@@ -32,14 +32,15 @@ void _write_str(char *str, int *char_counter)
 
 /**
 * _write_int - Writes an integer to stdout
-* @num: The integer to write
-* @char_counter: Pointer to the character count
+* @num: The integer to write.
+* @char_counter: Pointer to the character count.
 */
 void _write_int(int num, int *char_counter)
 {
-	int num = va_arg(args_list, int);
 	int num_len = 0;
 	int temp = num;
+	char num_str[12];
+	char *num_ptr;
 
 	if (temp == 0)
 		num_len = 1;
@@ -53,8 +54,8 @@ void _write_int(int num, int *char_counter)
 		temp /= 10;
 		num_len++;
 	}
-	char num_str[12];
-	char *num_ptr = num_str + num_len - 1;
+
+	num_ptr = num_str + num_len - 1;
 
 	if (num < 0)
 	{
