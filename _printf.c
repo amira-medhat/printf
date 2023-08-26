@@ -32,8 +32,8 @@ void _write_str(char *str, int *char_counter)
 
 /**
 * _write_int - Writes an integer to stdout
-* @num: The integer to write.
-* @char_counter: Pointer to the character count.
+* @num: The integer to write
+* @char_counter: Pointer to the character count
 */
 void _write_int(int num, int *char_counter)
 {
@@ -67,21 +67,64 @@ void _write_int(int num, int *char_counter)
 		num /= 10;
 		num_ptr--;
 	}
+
 	write(1, num_ptr, num_len);
-	(*char_counter) += num_len;
+	char_counter += num_len;
 	}
 	else
 	{
-	   while (num > 0)
+	while (num > 0)
 	{
 		*num_ptr = num % 10 + '0';
 		num /= 10;
 		num_ptr--;
 	}
-	   write(1, num_ptr + 1, num_len);
-	(*char_counter) += num_len;
+
+	write(1, num_ptr + 1, num_len);
+	char_counter += num_len;
 	}
 }
+
+/**
+* _write_ptr - Writes a pointer to stdout
+* @ptr: The pointer to write
+* @char_counter: Pointer to the character count
+*/
+void _write_ptr(void *ptr, int *char_counter)
+{
+	char ptr_str[20];
+	unsigned long int ptr_val = (unsigned long int)ptr;
+	int ptr_len = 0;
+	char reversed_ptr_str[20];
+	int i;
+
+	if (ptr_val == 0)
+	{
+		ptr_str[0] = '0';
+		ptr_len = 1;
+	}
+	else
+	{
+		while (ptr_val != 0)
+		{
+		int digit = ptr_val % 16;
+		ptr_str[ptr_len] = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
+		ptr_val /= 16;
+		ptr_len++;
+		}
+	}
+
+	ptr_str[ptr_len++] = 'x';
+	ptr_str[ptr_len++] = '0';
+
+	
+	for (i = 0; i < ptr_len; i++)
+		reversed_ptr_str[i] = ptr_str[ptr_len - i - 1];
+
+	write(1, reversed_ptr_str, ptr_len);
+	(*char_counter) += ptr_len;
+}
+
 
 /**
 * _printf - Custom printf function
@@ -128,6 +171,11 @@ int _printf(const char *format, ...)
 			int num = va_arg(args_list, int);
 			_write_int(num, &char_counter);
 		}
+		else if (*format == 'p')
+		{
+			void *ptr = va_arg(args_list, void *);
+			_write_ptr(ptr, &char_counter);
+		}	
 		else if (*format == '%')
 		{
 			_write_char('%', &char_counter);
