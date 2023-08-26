@@ -61,17 +61,26 @@ void _write_int(int num, int *char_counter)
 	{
 		num_str[0] = '-';
 		num = -num;
-	}
-
 	while (num > 0)
 	{
 		*num_ptr = num % 10 + '0';
 		num /= 10;
 		num_ptr--;
 	}
-
-	write(1, num_ptr + 1, num_len);
-	char_counter += num_len;
+	write(1, num_ptr, num_len);
+	(*char_counter) += num_len;
+	}
+	else
+	{
+	   while (num > 0)
+	{
+		*num_ptr = num % 10 + '0';
+		num /= 10;
+		num_ptr--;
+	}
+	   write(1, num_ptr + 1, num_len);
+	(*char_counter) += num_len;
+	}
 }
 
 /**
